@@ -22,8 +22,6 @@ public class DisplayMessageActivity extends AppCompatActivity {
     private TextView mTextViewResult;
     private RequestQueue requestQueue;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +29,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        final String message = intent.getStringExtra(SearchActivity.EXTRA_MESSAGE);
 
         // Capture the layout's TextView and set the string as its text
         TextView textView = findViewById(R.id.textView);
@@ -135,6 +133,5 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
         requestQueue.add(availabilityRequest);
     }
-
 
 }

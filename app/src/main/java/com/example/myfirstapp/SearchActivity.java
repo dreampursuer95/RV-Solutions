@@ -25,4 +25,5 @@ public class SearchActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_MESSAGE, address);
         startActivity(intent);
     }
+
 }
