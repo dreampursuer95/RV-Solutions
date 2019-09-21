@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">My First App</string>
+    <string name="app_name">RV Solutions</string>
     <string name="edit_message">Enter your address</string>
-    <string name="button_send">Search</string>
+    <string name="button_send">Get Availability</string>
+    <string name="editTextUsername">Username</string>
+    <string name="editTextPassword">Password</string>
+    <string name="login">LOGIN</string>
 </resources>
