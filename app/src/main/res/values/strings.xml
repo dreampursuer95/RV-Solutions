@@ -5,4 +5,5 @@
     <string name="editTextUsername">Username</string>
     <string name="editTextPassword">Password</string>
     <string name="login">LOGIN</string>
+    <string name="go_next">Next</string>
 </resources>
