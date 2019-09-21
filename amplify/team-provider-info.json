@@ -1,0 +1,19 @@
+{
+    "rvsolution": {
+        "awscloudformation": {
+            "AuthRoleName": "rvsolution-rvsolution-20190921211917-authRole",
+            "UnauthRoleArn": "arn:aws:iam::984898931416:role/rvsolution-rvsolution-20190921211917-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::984898931416:role/rvsolution-rvsolution-20190921211917-authRole",
+            "Region": "ap-southeast-1",
+            "DeploymentBucketName": "rvsolution-rvsolution-20190921211917-deployment",
+            "UnauthRoleName": "rvsolution-rvsolution-20190921211917-unauthRole",
+            "StackName": "rvsolution-rvsolution-20190921211917",
+            "StackId": "arn:aws:cloudformation:ap-southeast-1:984898931416:stack/rvsolution-rvsolution-20190921211917/698754d0-dc72-11e9-ac8f-066c5dc7e038"
+        },
+        "categories": {
+            "auth": {
+                "rvsolution79a505f5": {}
+            }
+        }
+    }
+}
