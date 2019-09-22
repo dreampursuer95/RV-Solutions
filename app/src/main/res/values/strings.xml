@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">RV Solutions</string>
     <string name="edit_message">Enter your address</string>
+    <string name="start_navigate">Navigate</string>
     <string name="button_send">Get Availability</string>
-    <string name="editTextUsername">Username</string>
-    <string name="editTextPassword">Password</string>
-    <string name="login">LOGIN</string>
-    <string name="go_next">Next</string>
 </resources>

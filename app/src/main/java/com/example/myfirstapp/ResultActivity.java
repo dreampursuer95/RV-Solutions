@@ -36,16 +36,10 @@ public class ResultActivity extends AppCompatActivity {
         textView.setText(message);
 
         mTextViewResult = findViewById(R.id.text_view_result);
-        Button buttonParse = findViewById(R.id.button_parse);
 
         requestQueue = Volley.newRequestQueue(this);
 
-        buttonParse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                jsonParse(message);
-            }
-        });
+        jsonParse(message);
     }
 
     private void jsonParse(String address) {
