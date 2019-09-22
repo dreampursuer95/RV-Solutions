@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
@@ -17,6 +18,7 @@ import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 
 public class MainActivity extends AppCompatActivity {
     private AWSAppSyncClient mAWSAppSyncClient;
+    public static final String EXTRA_MESSAGE = "Test";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         AWSMobileClient.getInstance().showSignIn(
                 this,
                 SignInUIOptions.builder()
-                        .nextActivity(SearchActivity.class)
+                        .nextActivity(MainActivity.class)
                         .canCancel(false)
                         .build(),
                 new Callback<UserStateDetails>() {
@@ -94,8 +96,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /** Called when the user taps the Send button */
-    public void goNext(View view) {
-        Intent intent = new Intent(this, SearchActivity.class);
+    public void sendMessage(View view) {
+        Intent intent = new Intent(this, ResultActivity.class);
+        EditText editText = (EditText) findViewById(R.id.editText);
+        String address = editText.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, address);
         startActivity(intent);
     }
 
