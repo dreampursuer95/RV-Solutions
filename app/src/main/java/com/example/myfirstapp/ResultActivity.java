@@ -2,9 +2,11 @@ package com.example.myfirstapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -21,6 +23,7 @@ import org.json.JSONObject;
 public class ResultActivity extends AppCompatActivity {
     private TextView mTextViewResult;
     private RequestQueue requestQueue;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +35,7 @@ public class ResultActivity extends AppCompatActivity {
         final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
         // Capture the layout's TextView and set the string as its text
-        TextView textView = findViewById(R.id.textView);
+        textView = findViewById(R.id.textView);
         textView.setText(message);
 
         mTextViewResult = findViewById(R.id.text_view_result);
@@ -60,8 +63,9 @@ public class ResultActivity extends AppCompatActivity {
                             String fullAddress = recordsObj.getString("address");
                             String freeParking = recordsObj.getString("free_parking");
 
-                            String resultString = "Full Address: " + fullAddress + "\n" +
-                                    "Free parking availability: " + freeParking + "\n\n";
+                            String resultString = "Free parking availability: " + freeParking + "\n\n";
+
+                            textView.setText(fullAddress);
 
                             mTextViewResult.append(resultString);
 
@@ -126,6 +130,15 @@ public class ResultActivity extends AppCompatActivity {
         );
 
         requestQueue.add(availabilityRequest);
+    }
+
+    public void startNavigating(View view) {
+        String address = textView.getText().toString().replace(" ", "+");
+        String addressUri = "google.navigation:q=" + address + ",+Singapore";
+        Uri gmmIntentUri = Uri.parse(addressUri);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 
 }
