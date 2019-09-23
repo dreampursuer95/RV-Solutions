@@ -15,16 +15,49 @@ import com.amazonaws.mobile.client.SignInUIOptions;
 import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
+import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
+import android.content.Context;
+import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
 
 public class MainActivity extends AppCompatActivity {
     private AWSAppSyncClient mAWSAppSyncClient;
     public static final String EXTRA_MESSAGE = "Test";
+    private static final String TAG = MainActivity.class.getSimpleName();
+    public static PinpointManager pinpointManager;
+
+    public static PinpointManager getPinpointManager(final Context applicationContext) {
+        if (pinpointManager == null) {
+            // Initialize the AWS Mobile Client
+            final AWSConfiguration awsConfig = new AWSConfiguration(applicationContext);
+            AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, new Callback<UserStateDetails>() {
+                @Override
+                public void onResult(UserStateDetails userStateDetails) {
+                    Log.i("INIT", userStateDetails.getUserState().toString());
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Log.e("INIT", "Initialization error.", e);
+                }
+            });
+
+            PinpointConfiguration pinpointConfig = new PinpointConfiguration(
+                    applicationContext,
+                    AWSMobileClient.getInstance(),
+                    awsConfig);
+
+            pinpointManager = new PinpointManager(pinpointConfig);
+        }
+        return pinpointManager;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        final PinpointManager pinpointManager = getPinpointManager(getApplicationContext());
+        pinpointManager.getSessionClient().startSession();
         AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
             @Override
             public void onResult(UserStateDetails userStateDetails) {
@@ -95,6 +128,14 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        pinpointManager.getSessionClient().stopSession();
+        pinpointManager.getAnalyticsClient().submitEvents();
+    }
+
     /** Called when the user taps the Send button */
     public void sendMessage(View view) {
         Intent intent = new Intent(this, ResultActivity.class);
@@ -103,5 +144,12 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_MESSAGE, address);
         startActivity(intent);
     }
+    public static void logSearchEvent(String message) {
+        final AnalyticsEvent event =
+                pinpointManager.getAnalyticsClient().createEvent("Search")
+                        .withAttribute("Location", message);
 
+        pinpointManager.getAnalyticsClient().recordEvent(event);
+    }
 }
+

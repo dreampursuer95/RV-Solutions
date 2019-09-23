@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -48,6 +49,7 @@ public class ResultActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
 
         jsonParse(message);
+        MainActivity.logSearchEvent(message);
     }
 
     private void jsonParse(String address) {
@@ -176,5 +178,6 @@ public class ResultActivity extends AppCompatActivity {
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
     }
+
 
 }
