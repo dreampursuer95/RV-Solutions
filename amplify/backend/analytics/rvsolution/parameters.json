@@ -1,0 +1,20 @@
+{
+    "appName": "rvsolution",
+    "roleName": "pinpointLambdaRoled16e76df",
+    "cloudWatchPolicyName": "cloudWatchPolicyd16e76df",
+    "pinpointPolicyName": "pinpointPolicyd16e76df",
+    "authPolicyName": "pinpoint_amplify_d16e76df",
+    "unauthPolicyName": "pinpoint_amplify_d16e76df",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}
