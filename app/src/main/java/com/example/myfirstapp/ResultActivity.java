@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,10 +21,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+
 public class ResultActivity extends AppCompatActivity {
     private TextView mTextViewResult;
     private RequestQueue requestQueue;
     private TextView textView;
+    private String[] centralCarparks = {"HLM","KAB","KAM","KAS","PRM","SLS","SR1","SR2","TPM","UCS"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +49,7 @@ public class ResultActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
 
         jsonParse(message);
+        MainActivity.logSearchEvent(message);
     }
 
     private void jsonParse(String address) {
@@ -63,12 +70,43 @@ public class ResultActivity extends AppCompatActivity {
                             String fullAddress = recordsObj.getString("address");
                             String freeParking = recordsObj.getString("free_parking");
 
-                            String resultString = "Free parking availability: " + freeParking + "\n\n";
+                            //String resultString = "Free parking availability: " + freeParking + "\n";
+                            String pricing="Current Price: ";
+                            Calendar calendar = Calendar.getInstance();
+                            int day = calendar.get(Calendar.DAY_OF_WEEK);
+                            switch (day){
+                                case Calendar.SUNDAY:
+                                    if (freeParking.equals("NO")){
+                                        pricing  += "$0.60 per half hour\n\n";
+                                        break;
+                                    }
+                                    else if (calendar.get(Calendar.HOUR_OF_DAY)>6 && (calendar.get(Calendar.HOUR_OF_DAY)<22 || (calendar.get(Calendar.HOUR_OF_DAY)==22 && calendar.get(Calendar.MINUTE)<=30 ))){
+                                        pricing += "Current pricing is free!";
+                                        break;
+                                    }
+                                    else
+                                        pricing += "$0.60 per half hour\n\n";
+                                        break;
+                                case Calendar.MONDAY:
+                                case Calendar.TUESDAY:
+                                case Calendar.WEDNESDAY:
+                                case Calendar.THURSDAY:
+                                case Calendar.FRIDAY:
+                                case Calendar.SATURDAY:
+                                    if(Arrays.asList(centralCarparks).contains(carParkNo) && calendar.get(Calendar.HOUR_OF_DAY)>6 && (calendar.get(Calendar.HOUR_OF_DAY)<17)){
+                                        pricing += "$1.20 per half hour\n\n";
+                                        break;
+                                    }
+                                    else
+                                        pricing += "$0.60 per half hour\n\n";
+                                        break;
+                            }
+
 
                             textView.setText(fullAddress);
 
-                            mTextViewResult.append(resultString);
-
+                            //mTextViewResult.append(resultString);
+                            mTextViewResult.append(pricing);
                             searchForAvailability(carParkNo);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -140,5 +178,6 @@ public class ResultActivity extends AppCompatActivity {
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
     }
+
 
 }

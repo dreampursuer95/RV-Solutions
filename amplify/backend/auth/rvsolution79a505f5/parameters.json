@@ -1,6 +1,6 @@
 {
     "identityPoolName": "rvsolution79a505f5_identitypool_79a505f5",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "rvsolu79a505f5",
     "userPoolName": "rvsolution79a505f5_userpool_79a505f5",
     "autoVerifiedAttributes": [

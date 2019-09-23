@@ -42,4 +42,8 @@ dependencies {
     //For the drop-in UI also:
     implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.15.+'
     implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.15.+'
+
+    //For Analytics
+    implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.15.+'
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
 }
