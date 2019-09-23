@@ -20,10 +20,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class ResultActivity extends AppCompatActivity {
     private TextView mTextViewResult;
     private RequestQueue requestQueue;
     private TextView textView;
+    private String[] centralCarparks = {"HLM","KAB","KAM","KAS","PRM","SLS","SR1","SR2","TPM","UCS"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +67,19 @@ public class ResultActivity extends AppCompatActivity {
                             String fullAddress = recordsObj.getString("address");
                             String freeParking = recordsObj.getString("free_parking");
 
-                            String resultString = "Free parking availability: " + freeParking + "\n\n";
+                            String resultString = "Free parking availability: " + freeParking + "\n";
+                            String pricing;
+                            if(Arrays.asList(centralCarparks).contains(carParkNo)){
+                                pricing = "$1.20 per half hour Mondays to Saturdays 7am to 5pm. $0.60 other hours\n\n";
+                            }
+                            else
+                                pricing = "$0.60 per half hour\n\n";
+
 
                             textView.setText(fullAddress);
 
                             mTextViewResult.append(resultString);
-
+                            mTextViewResult.append(pricing);
                             searchForAvailability(carParkNo);
                         } catch (JSONException e) {
                             e.printStackTrace();
